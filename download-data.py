@@ -5,7 +5,28 @@ from datetime import datetime, date
 import sys
 
 import requests
- 
+
+RESTAURANT_NAMES = [
+    "India Palace",
+    "Pavia",
+    "Falafel Place",
+    "Thelonius Monkfish",
+    "Royal East Restaurant",
+    "Alfredo's",
+    "Veggie Crust",
+    "Bailey and Sage",
+    "Tossed",
+    "Beantown Taqueria",
+    "Cafe 472",
+    "Beijing Tokyo",
+    "Viva Burrito",
+    "Golden Temple",
+    "Momo N Curry",
+    "Veggie Crust",
+    "Los Paisanos",
+    "Sugar and Spice",
+    ]
+
 def parse_restaurant_name(text):
     """
     Grab the restaurant name by looking after the exclamation and before the 'is here'
@@ -44,12 +65,14 @@ def main():
     # Write restaurant,date to csv
     with open('message-data.csv', 'w') as output_file:
         csv_writer = csv.writer(output_file)
+        csv_writer.writerow(["restaurant", "datetime"]) # Header
 
         for message in messages:
             restaurant = parse_restaurant_name(message['message'])
 
             if not restaurant:
-                print("Unable to parse restaurant from message: {} on date {}".format(message['message'], message['date']))
+                print("Unable to parse restaurant from message: {} on date {}".format(
+                    message['message'], message['date']))
                 continue
 
             info = (restaurant, message['date'])
