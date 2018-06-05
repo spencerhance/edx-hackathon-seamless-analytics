@@ -15,9 +15,9 @@ def parse_restaurant_name(text):
 
 def request_messages(auth_token, room_id):
     """
-    Request messages up until the earliest date, or if no messages are returned
+    Request up to 1000 messages
     """
-    params = {'auth_token': auth_token, 'max_results': 1000, 'date': "recent"}
+    params = {'auth_token': auth_token, 'max-results': 1000, 'start-index': 0}
     
     room_url = "https://api.hipchat.com/v2/room/{}/history".format(room_id)
     
@@ -25,22 +25,7 @@ def request_messages(auth_token, room_id):
     
     assert resp.status_code == 200, "First API request returned a non 200 status code"
 
-    messages = resp.json()['items']
-    
-    # Just grab a fixed number of iterations for now
-    # FIXME currently the date ranges are not working as expected
-    for i in range(0, 5):
-        # Items are returned oldest first
-        current_date = messages[0]['date']
-
-        params['end_date'] = current_date
-        resp = requests.get(room_url, params=params)
-        
-        # Add to our running list
-        for message in resp.json()['items']:
-            messages.append(message)
-
-    return messages
+    return resp.json()['items']
 
 def main():
     """ Download the data """
@@ -64,7 +49,7 @@ def main():
             restaurant = parse_restaurant_name(message['message'])
 
             if not restaurant:
-                print("Unable to parse restaurant from message: {}".format(message['message']))
+                print("Unable to parse restaurant from message: {} on date {}".format(message['message'], message['date']))
                 continue
 
             info = (restaurant, message['date'])
