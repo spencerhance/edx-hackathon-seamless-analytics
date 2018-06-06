@@ -65,11 +65,12 @@ def convert_df_to_dict(df):
         avg_delta = df[df.restaurant == restaurant]['delta'].mean()
         timestamps = [x.strftime("%Y-%m-%dT%H:%M:%S.%fZ") for x in df[df.restaurant == restaurant]['datetime']]
         deltas = df[df.restaurant == restaurant]['delta']
+        dayofweeks = df['dayofweek']
 
         rest_result = {
                        'name': restaurant,
                        'avg_delta': avg_delta,
-                       'log': [{'timestamp': x, 'delta': y} for x,y in zip(timestamps, deltas)]
+                       'log': [{'timestamp': x, 'delta': y, 'dayofweek': z} for x,y,z in zip(timestamps, deltas, dayofweeks)]
                        }
 
         result_dict['restaurants'].append(rest_result)
