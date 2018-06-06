@@ -7,7 +7,7 @@ import sys
 import requests
 
 RESTAURANT_NAMES = [
-    ["India Palace"],
+    ["India Palace", "Indian Palace"],
     ["Pavia"],
     ["Falafel Place", "Falafel"],
     ["Thelonius Monkfish", "Monkfish", "Thelonious"],
