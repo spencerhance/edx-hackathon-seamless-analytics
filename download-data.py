@@ -31,8 +31,7 @@ RESTAURANT_NAMES = [
 
 def parse_restaurant_name(text):
     """
-    Grab the restaurant name by looking after the exclamation and before the 'is here'
-    Could be replaced by searching for each restaurant in the string
+    Grab the restaurant name by looking for each specified restaurant (and its variations) in the string
     """
     stripped = text.lower()
 
@@ -49,7 +48,7 @@ def request_messages(auth_token, room_id):
     """
     Request up to 1000 messages
     """
-    
+
     params = {'auth_token': auth_token, 'max-results': 1000, 'start-index': 0, 'date': "recent",
             'timezone': "America/New_York", 'reverse': True}
 
