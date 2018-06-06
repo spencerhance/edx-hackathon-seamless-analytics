@@ -25,7 +25,7 @@ def get_time_delta_from_expected(dayofweek, hour, minute):
     """Get the time delta from the expected time based on the day of the week
     """
     total_minutes = hour * 60 + minute
-    
+
     if dayofweek == "Monday" or dayofweek == "Thursday":
         return total_minutes - (12 * 60)
     elif dayofweek == "Wednesday":
@@ -50,13 +50,16 @@ def process_data(filename):
 def convert_df_to_dict(df):
     """ Convert dataframe to dict object"""
     result_dict = {'restaurants': []}
-    restaurants = df.restaurant.values
+    restaurants = df.restaurant.unique()
 
     for restaurant in restaurants:
+        # skip any restaurants that have less than 20 entries
+        if len(df[df.restaurant == restaurant]) < 20:
+            continue
         avg_delta = df[df.restaurant == restaurant]['delta'].mean()
         timestamps = [x.strftime("%Y-%m-%dT%H:%M:%S.%fZ") for x in df[df.restaurant == restaurant]['datetime']]
         deltas = df[df.restaurant == restaurant]['delta']
-        
+
         rest_result = {
                        'name': restaurant,
                        'avg_delta': avg_delta,
@@ -64,13 +67,13 @@ def convert_df_to_dict(df):
                        }
 
         result_dict['restaurants'].append(rest_result)
-    
+
     return result_dict
 
 def main():
     df = process_data('message-data.csv')
     json_df = convert_df_to_dict(df)
-    
+
     with open('processed-data.json', 'w') as output_file:
         json.dump(json_df, output_file, indent=4, separators=(',', ': '))
 
