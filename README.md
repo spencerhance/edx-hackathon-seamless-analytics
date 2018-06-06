@@ -6,12 +6,16 @@ On the api site, create a new "View Messages" auth key
 
 `pip3 install -r requirements.txt`
 
-`./download-data.py auth_key room_id`
+# Run
 
-To run the flask API to serve the example data:
-`export FLASK_APP=app.py`
+1. `./download-data.py auth_key room_id`
 
-`flask run`
+2. `./analytics.py`
 
-Open up http://127.0.0.1:5000/data/example
+3. To run the flask API to serve the example data:
+    `export FLASK_APP=app.py`
+
+    `flask run`
+
+4. Open up http://127.0.0.1:5000/data/example
 
