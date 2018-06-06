@@ -7,24 +7,26 @@ import sys
 import requests
 
 RESTAURANT_NAMES = [
-    "India Palace",
-    "Pavia",
-    "Falafel Place",
-    "Thelonius Monkfish",
-    "Royal East Restaurant",
-    "Alfredo's",
-    "Veggie Crust",
-    "Bailey and Sage",
-    "Tossed",
-    "Beantown Taqueria",
-    "Cafe 472",
-    "Beijing Tokyo",
-    "Viva Burrito",
-    "Golden Temple",
-    "Momo N Curry",
-    "Veggie Crust",
-    "Los Paisanos",
-    "Sugar and Spice",
+    ["India Palace"],
+    ["Pavia"],
+    ["Falafel Place", "Falafel"],
+    ["Thelonius Monkfish", "Monkfish", "Thelonious"],
+    ["Royal East Restaurant"],
+    ["Alfredo's"],
+    ["Veggie Crust"],
+    ["Bailey and Sage", "Bailey & Sage"],
+    ["Tossed"],
+    ["Beantown Taqueria", "Beantown"],
+    ["Cafe 472", "472"],
+    ["Beijing Tokyo"],
+    ["Viva Burrito"],
+    ["Golden Temple"],
+    ["Momo N Curry"],
+    ["Veggie Crust"],
+    ["Los Paisanos"],
+    ["Sugar and Spice", "Sugar & Spice"],
+    ["Mr. B's"],
+    ["Bertucci's"]
     ]
 
 def parse_restaurant_name(text):
@@ -32,24 +34,34 @@ def parse_restaurant_name(text):
     Grab the restaurant name by looking after the exclamation and before the 'is here'
     Could be replaced by searching for each restaurant in the string
     """
-    return text.split('!')[-1].split('is here')[0].strip()
+    stripped = text.lower()
+
+    for name_list in RESTAURANT_NAMES:
+        for name in name_list:
+            if name.lower() in stripped:
+                return name_list[0]
+
+    return ""
+
+
 
 def request_messages(auth_token, room_id):
     """
     Request up to 1000 messages
     """
+    
     params = {'auth_token': auth_token, 'max-results': 1000, 'start-index': 0, 'date': "recent",
             'timezone': "America/New_York", 'reverse': True}
-    
+
     results = []
-    
+
     room_url = "https://api.hipchat.com/v2/room/{}/history".format(room_id)
-    
+
     for i in range(0, 5):
         resp = requests.get(room_url, params=params)
 
         resp_json = resp.json()
-    
+
         assert resp.status_code == 200, "API request returned a non 200 status code"
 
         for item in resp_json['items']:
@@ -62,17 +74,17 @@ def request_messages(auth_token, room_id):
 
 def main():
     """ Download the data """
-    
+
     # Parse cmd line args
     assert len(sys.argv) == 3, "Not enough arguements"
-    auth_token = sys.argv[1]    
+    auth_token = sys.argv[1]
     room_id = sys.argv[2]
 
     # Get all of the messages
     messages = request_messages(auth_token, room_id)
 
     # Filter by the common expression is here, could also limit to Eudarck and Bruno's user IDs
-    messages = [x for x in messages if x['message'] and 'is here' in x['message']] 
+    messages = [x for x in messages if x['message'] and 'is here' in x['message']]
 
     # Write restaurant,date to csv
     with open('message-data.csv', 'w') as output_file:
