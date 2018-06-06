@@ -1,16 +1,25 @@
 import React from "react";
+
 import {
-  LineChart,
-  Line,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
+  BarChart, 
+  Bar, 
+  ReferenceLine, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
   Legend
 } from "recharts";
 import { Segment } from "semantic-ui-react";
 
 class Graph extends React.Component {
+  constructor(props){
+    super(props);
+    this.state({
+
+    })
+
+  }
   parseData(object) {
     // make this a parser for json?
   }
@@ -20,29 +29,17 @@ class Graph extends React.Component {
       <Segment>
         <div className="graph-class">
           <div name="graph-container" align="center">
-            <LineChart
-              width={600}
-              height={300}
-              data={[
-                { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-                { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-                { name: "Page C", uv: 2000, pv: 9800, amt: 2290 }
-              ]}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-              <XAxis dataKey="name" />
-              <YAxis />
-              <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="pv"
-                stroke="#8884d8"
-                activeDot={{ r: 8 }}
-              />
-              <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-            </LineChart>
+          <BarChart width={1000} height={400} data={parseDate().bind(this)}
+            margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+       <CartesianGrid strokeDasharray="3 3"/>
+       <XAxis dataKey="name"/>
+       <YAxis/>
+       <Tooltip/>
+       <Legend />
+       <ReferenceLine y={0} stroke='#000'/>
+       <Bar dataKey="pv" fill="#8884d8" />
+       <Bar dataKey="uv" fill="#82ca9d" />
+      </BarChart>
           </div>
         </div>
       </Segment>
