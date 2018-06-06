@@ -30,7 +30,7 @@ RESTAURANT_NAMES = [
 def parse_restaurant_name(text):
     """
     Grab the restaurant name by looking after the exclamation and before the 'is here'
-    Could be replaced by searching for each restaurant in the stringt
+    Could be replaced by searching for each restaurant in the string
     """
     return text.split('!')[-1].split('is here')[0].strip()
 
@@ -38,15 +38,27 @@ def request_messages(auth_token, room_id):
     """
     Request up to 1000 messages
     """
-    params = {'auth_token': auth_token, 'max-results': 1000, 'start-index': 0}
+    params = {'auth_token': auth_token, 'max-results': 1000, 'start-index': 0, 'date': "recent",
+            'timezone': "America/New_York", 'reverse': True}
+    
+    results = []
     
     room_url = "https://api.hipchat.com/v2/room/{}/history".format(room_id)
     
-    resp = requests.get(room_url, params=params)
-    
-    assert resp.status_code == 200, "First API request returned a non 200 status code"
+    for i in range(0, 5):
+        resp = requests.get(room_url, params=params)
 
-    return resp.json()['items']
+        resp_json = resp.json()
+    
+        assert resp.status_code == 200, "API request returned a non 200 status code"
+
+        for item in resp_json['items']:
+            results.append(item)
+
+        current_date = resp_json['items'][0]['date']
+        params['date'] = current_date
+
+    return results
 
 def main():
     """ Download the data """
