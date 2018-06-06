@@ -11,7 +11,7 @@ RESTAURANT_NAMES = [
     ["Pavia"],
     ["Falafel Place", "Falafel"],
     ["Thelonius Monkfish", "Monkfish", "Thelonious"],
-    ["Royal East Restaurant"],
+    ["Royal East Restaurant", "Royal East"],
     ["Alfredo's"],
     ["Veggie Crust"],
     ["Bailey and Sage", "Bailey & Sage"],
