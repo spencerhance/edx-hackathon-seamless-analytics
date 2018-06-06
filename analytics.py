@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import csv
 import json
 from datetime import datetime
@@ -31,7 +33,7 @@ def get_time_delta_from_expected(dayofweek, hour, minute):
     elif dayofweek == "Wednesday":
         return total_minutes - (12 * 60 + 30)
     else:
-        return -1
+        return None
 
 def process_data(filename):
     """Add a bunch of features to the data"""
@@ -42,6 +44,10 @@ def process_data(filename):
     df['dayofweek'] = df['datetime'].apply(lambda x: x.day_name())
     df['hour'] = df['datetime'].apply(lambda x: x.hour)
     df['minute'] = df['datetime'].apply(lambda x: x.minute)
+    
+    # Filter out Tuesdays and Fridays
+    df = df[df['dayofweek'].isin(["Monday", "Wednesday", "Thursday"])]
+
     df['delta'] = df.apply(lambda row: get_time_delta_from_expected(
         row['dayofweek'], row['hour'], row['minute']), axis=1)
 
