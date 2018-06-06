@@ -8,3 +8,10 @@ On the api site, create a new "View Messages" auth key
 
 `./download-data.py auth_key room_id`
 
+To run the flask API to serve the example data:
+`export FLASK_APP=app.py`
+
+`flask run`
+
+Open up http://127.0.0.1:5000/data/example
+
