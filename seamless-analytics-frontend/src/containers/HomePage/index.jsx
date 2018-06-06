@@ -1,9 +1,9 @@
 import React from 'react';
+import Graph from '../../components/Graph'
 
 const HomePage = () => (
   <div className="home-container">
-    <h1>Home Page Landing</h1>
-    <p>Blah blah blah blah</p>
+    <Graph/>
   </div>
 );
 
