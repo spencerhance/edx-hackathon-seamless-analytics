@@ -3,8 +3,27 @@ import { Segment, Grid, Checkbox, Image } from "semantic-ui-react";
 class Restaurants extends Component {
   constructor(props) {
     super(props);
-  }
+    this.state = {
+      restaurants : []
+     };
+    var data = require('../../processed-data.json'); 
+    if(data){
+      alert("File success!");
+    }
+    console.log("Made it here");
+    for(var i = 0; i < data.length; i++) {
+        var obj = data[i];
+    
+        console.log("Key: "+ obj.name);
+    }
 
+    //const checkItems = res.map((number) =>
+    //<li>{number}</li>
+
+  }
+  setupRestaurants(){
+    
+  }
   render() {
     return (
       <Segment textAlign="center">
