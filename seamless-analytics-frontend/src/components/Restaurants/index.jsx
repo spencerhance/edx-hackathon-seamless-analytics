@@ -4,70 +4,40 @@ class Restaurants extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      restaurants : []
+      restaurants : [],
+      checkList : []
      };
-    var data = require('../../processed-data.json'); 
-    if(data){
-      alert("File success!");
-    }
-    console.log("Made it here");
-    for(var i = 0; i < data.length; i++) {
-        var obj = data[i];
-    
-        console.log("Key: "+ obj.name);
-    }
+  this.onChange = this.onChange.bind(this);
+   
+   
+}
 
-    //const checkItems = res.map((number) =>
-    //<li>{number}</li>
+onChange(e) {
+  console.log(e.target);
+  console.log(e);
+}
 
-  }
-  setupRestaurants(){
-    
-  }
   render() {
+    var data = require('../../processed-data.json'); 
+
+    var myJSON = JSON.stringify(data);
+    var json_obj = JSON.parse(myJSON);
+    var temp =[];
+    var count =0;
+    for(var i in json_obj) {
+      for(var restaurant in i) {
+        this.state.restaurants.push(json_obj[i][restaurant].name);
+        this.state.checkList.push(          
+        <Checkbox label ={json_obj[i][restaurant].name}  value = {json_obj[i][restaurant].name} onChange={(e) => {this.onChange(e)}}/>
+        );
+      }
+    }
     return (
       <Segment textAlign="center">
         <Grid centered columns={3}>
           <Grid.Row centered>
             <Grid.Column>
-              <Checkbox label="Restaurant 1" />
-              
-            </Grid.Column>
-            <Grid.Column>
-              <Checkbox label="Restaurant 4" />
-              
-            </Grid.Column>
-            <Grid.Column>
-              <Checkbox label="Restaurant 7" />
-              
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row centered>
-            <Grid.Column>
-              <Checkbox label="Restaurant 1" />
-              
-            </Grid.Column>
-            <Grid.Column>
-              <Checkbox label="Restaurant 4" />
-              
-            </Grid.Column>
-            <Grid.Column>
-              <Checkbox label="Restaurant 7" />
-              
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row centered>
-            <Grid.Column>
-              <Checkbox label="Restaurant 1" />
-              
-            </Grid.Column>
-            <Grid.Column>
-              <Checkbox label="Restaurant 4" />
-              
-            </Grid.Column>
-            <Grid.Column>
-              <Checkbox label="Restaurant 7" />
-              
+              {this.state.checkList}
             </Grid.Column>
           </Grid.Row>
 

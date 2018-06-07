@@ -16,8 +16,22 @@ class Graph extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      email: '',
-      data : []
+      data : [
+      {name: 'India Palace', delta : 11, amt: 100},
+      {name: 'Pavia', delta: -5.10,amt: 100},
+      {name: 'Falafel Place', delta: -0.18, amt: 2290},
+      {name: 'Monkfish', delta: -6,amt: 2000},
+      {name: 'Royal East Restaurant', delta: 8.5,amt: 2000},
+      {name: 'Alfredos', delta: -12.25,amt: 2000},
+      {name: 'Veggie Crust', delta: -.69,amt: 2000},
+      {name: 'Bailey and Sage', delta: 1.7,amt: 2000},
+      {name: 'Tossed', delta: -25,amt: 2000},
+      {name: 'Sugar and Spice', delta: 15,amt: 2000},
+      {name: 'Viva Burrito', delta: 10.38,amt: 2000},
+      {name: 'Beantown Taqueria', delta: 2.23,amt: 2000},
+      {name: 'Cafe 472', delta: 3.58,amt: 2000},
+      {name: 'Beijing Tokyo', delta: 10.875,amt: 2000}
+      ]
      };
 
   }
@@ -25,37 +39,22 @@ class Graph extends React.Component {
     
   }
 
-  setupRestaurants(){
-    var data = require('../../processed-data.json'); // forward slashes will depend on the file location
-    if(data){
-      alert("File success!");
-    }
-    for(var i = 0; i < data.length; i++) {
-        var obj = data[i];
-    
-        console.log("Name: " + obj.first_name + ", " + obj.last_name);
-    }
-  }
-/*{name: 'Page A', uv: 4000, pv: 2400, amt: 2400},
-      {name: 'Page B', uv: -3000, pv: 1398, amt: 2210},
-      {name: 'Page C', uv: -2000, pv: -9800, amt: 2290},
-      {name: 'Page D', uv: 2780, pv: 3908, amt: 2000}]*/
+
   render() {
     this.parseData.bind(this)
 ;    return (
       <Segment>
         <div className="graph-class">
           <div name="graph-container" align="center">
-          <BarChart width={1000} height={400} data={ this.state.data }
+          <BarChart width={900} height={400} data={ this.state.data }
             margin={{top: 5, right: 30, left: 20, bottom: 5}}>
-       <CartesianGrid strokeDasharray="3 3"/>
+       <CartesianGrid strokeDasharray="1 1"/>
        <XAxis dataKey="name"/>
        <YAxis/>
        <Tooltip/>
        <Legend />
        <ReferenceLine y={0} stroke='#000'/>
-       <Bar dataKey="pv" fill="#8884d8" />
-       <Bar dataKey="uv" fill="#82ca9d" />
+       <Bar dataKey="delta" fill="#82ca9d" />
       </BarChart>
           </div>
         </div>
