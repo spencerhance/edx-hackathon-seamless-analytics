@@ -4,9 +4,11 @@ data <- read.csv("/Users/crogers/Desktop/edx-hackathon-seamless-analytics/messag
 data$date <- substr(data$datetime,1,10)
 data$time <- substr(data$datetime, 12, 16)
 data$day <- weekdays(as.Date(data$date))
+# give day of week for each row
 data <- data[data$day == "Monday" ||  data$day == "Wednesday" || data$day == "Thursday",]
-data$delta <- 0
 
+# calculate time delta for each row
+data$delta <- 0
 for(i in 1:nrow(data)){
   if (data[i,]$day == "Wednesday"){
     data[i,]$delta <- as.numeric(difftime(as.POSIXct(data[i,]$time, format='%H:%M'), as.POSIXct("12:30", format='%H:%M'), units = "mins"))
@@ -16,6 +18,7 @@ for(i in 1:nrow(data)){
   }
 }
 
+# dtf for each restaurant
 alf <- data[data$restaurant == "Alfredo's",]
 veg <- data[data$restaurant == "Veggie Crust",]
 bai <- data[data$restaurant == "Bailey and Sage",]
@@ -31,12 +34,10 @@ pav <- data[data$restaurant == "Pavia",]
 the <- data[data$restaurant == "Thelonius Monkfish",]
 fal <- data[data$restaurant == "Falafel Place",]
 
-min(as.numeric(tos$delta))
-max(as.numeric(tos$delta))
+# list of all restaurant data frames
 rest <- list(alf, veg, bai, tos, sug, ind, viv, bea, caf, roy, bei, pav, the, fal)
 
-
-
+# scatterplots for some restaurants
 ggplot(data = tos, aes(x = as.Date(date), y = delta)) +
   geom_point() +
   labs(x = "Date", y = "Delta", title = "Tossed") + 
@@ -65,7 +66,8 @@ ggplot(data = ind, aes(x = as.Date(date), y = delta)) +
   coord_cartesian(ylim=c(-60,60)) + 
   scale_y_continuous(breaks = seq(-60, 60, by = 10)) 
 
-
+# plot time delta over time for each restaurant
+# commented out restaurants that don't have a full year of entries
 ggplot(data = sug, aes(x = as.Date(date), y = delta)) +
   labs(x = "Date", y = "Time Delta (Minutes)",
        title = "Smoothed Time Delta For Each Restaurant Over Time") +
