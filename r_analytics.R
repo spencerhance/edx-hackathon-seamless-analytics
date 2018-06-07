@@ -1,6 +1,6 @@
 library("ggplot2")
 
-data <- read.csv("/Users/crogers/Desktop/edx-hackathon-seamless-analytics/message-data.csv")
+data <- read.csv("message-data.csv")
 data$date <- substr(data$datetime,1,10)
 data$time <- substr(data$datetime, 12, 16)
 data$day <- weekdays(as.Date(data$date))
